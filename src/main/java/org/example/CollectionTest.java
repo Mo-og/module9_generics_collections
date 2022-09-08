@@ -26,7 +26,7 @@ public class CollectionTest {
     }
 
 
-    private static void testList(List<Integer> integers) {
+    public static void testList(List<Integer> integers) {
         System.out.println("List: " + integers.getClass());
         printSize(integers);
 
@@ -52,8 +52,8 @@ public class CollectionTest {
 
         clear(integers);
 
-        Integer integer = 100;
         populateList(0, 7, integers);
+        Integer integer = 100;
         integers.add(integer);
         populateList(8, 16, integers);
         System.out.println(integers);
@@ -63,47 +63,51 @@ public class CollectionTest {
     }
 
 
-    private static void testQueue(Queue<Integer> queue) {
+    public static void testQueue(Queue<Integer> queue) {
         System.out.println("Queue: " + queue.getClass());
         printSize(queue);
         printPeek(queue.peek());
+
         populateList(1, 30, queue);
         System.out.println(queue);
         printPeek(queue.peek());
         printSize(queue);
+
         System.out.println("Removing (poll):\n ");
-        for (int i = 1; i < 6; i++) {
-            System.out.print(queue.poll() + ", ");
-        }
+        for (int i = 1; i < 6; i++) System.out.print(queue.poll() + ", ");
         System.out.println();
         System.out.println(queue);
         printPeek(queue.peek());
+
         System.out.print("Add:\n ");
         populateList(100, 105, queue);
         System.out.println("\n" + queue);
         printPeek(queue.peek());
+
         clear(queue);
     }
 
 
-    private static void testStack(Stack<Integer> stack) {
+    public static void testStack(Stack<Integer> stack) {
         System.out.println("Stack: " + stack.getClass());
         printSize(stack);
         printPeek(stack.peek());
+
         populateStack(1, 30, stack);
         System.out.println(stack);
         printPeek(stack.peek());
         printSize(stack);
+
         System.out.print("Removing (pop):\n ");
-        for (int i = 1; i < 6; i++) {
-            System.out.print(stack.pop() + ", ");
-        }
+        for (int i = 1; i < 6; i++) System.out.print(stack.pop() + ", ");
         System.out.println();
         System.out.println(stack);
         printPeek(stack.peek());
+
         populateStack(100, 105, stack);
         System.out.println(stack);
         printPeek(stack.peek());
+
         clear(stack);
     }
 
