@@ -1,8 +1,11 @@
 package org.example.implementations;
 
+
+import org.example.interfaces.Map;
+
 import java.util.*;
 
-public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
+public class MyHashMap<K, V> implements Map<K, V> {
     private static final int DEFAULT_CAPACITY = 16;
     private static final double DEFAULT_LOAD_FACTOR = 1.1;
     private Node<K, V>[] table;
@@ -22,9 +25,8 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
         table = new Node[this.capacity];
     }
 
-    @Override
-    public Set<Entry<K, V>> entrySet() {
-        Set<Entry<K, V>> set = new HashSet<>();
+    public Set<Node<K, V>> entrySet() {
+        Set<Node<K, V>> set = new HashSet<>();
         for (Node<K, V> node : table) {
             if (node == null) continue;
             while (node != null) {
@@ -36,11 +38,10 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public V remove(Object key) {
-        int index = key == null ? 0 : key.hashCode() % capacity;
+    public V remove(K key) {
+        int index = getIndex(key);
         if (table[index] == null) return null;
-        Node<K, V> toRemoveNode = new Node<>((K) key, null);
+        Node<K, V> toRemoveNode = new Node<>(key, null);
         Node<K, V> n = table[index];
         Node<K, V> prev = n;
         V toReturn = null;
@@ -113,9 +114,9 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
         var old = entrySet();
         capacity *= 2;
         table = new Node[capacity];
-        for (Entry<K, V> node : old) {
-            ((Node<K, V>) node).next = null;
-            fastAdd((Node<K, V>) node);
+        for (Node<K, V> node : old) {
+            node.next = null;
+            fastAdd(node);
         }
     }
 
@@ -131,15 +132,28 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
         if (size < 16) capacity = DEFAULT_CAPACITY;
         else capacity = (int) (size * DEFAULT_LOAD_FACTOR);
         table = new Node[capacity];
-        for (Entry<K, V> node : old) {
-            ((Node<K, V>) node).next = null;
-            fastAdd((Node<K, V>) node);
+        for (Node<K, V> node : old) {
+            (node).next = null;
+            fastAdd(node);
         }
     }
 
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public V get(K key) {
+        int index = getIndex(key);
+        var node = table[index];
+        if (node == null) return null;
+        while (node != null) {
+            if (Objects.equals(node.key, key))
+                return node.getValue();
+            node = node.next;
+        }
+        return null;
     }
 
     @Override
@@ -170,7 +184,7 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
         return sj.toString();
     }
 
-    private static class Node<K, V> implements Map.Entry<K, V> {
+    private static class Node<K, V> {
         private final int hash;
         private final K key;
         private V value;
@@ -187,17 +201,14 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
             return Objects.equals(key, other.key);
         }
 
-        @Override
         public K getKey() {
             return key;
         }
 
-        @Override
         public V getValue() {
             return value;
         }
 
-        @Override
         public V setValue(V value) {
             this.value = value;
             return value;

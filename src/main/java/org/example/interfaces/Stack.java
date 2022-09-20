@@ -1,8 +1,7 @@
 package org.example.interfaces;
 
-import java.util.List;
+public interface Stack<E> extends DemoCollection<E> {
 
-public interface Stack<E> extends List<E> {
     /**
      * Pushes an item onto the top of this stack.
      *
@@ -38,5 +37,9 @@ public interface Stack<E> extends List<E> {
      */
     void clear();
 
-
+    @Override
+    default boolean add(E e) {
+        push(e);
+        return true;
+    }
 }

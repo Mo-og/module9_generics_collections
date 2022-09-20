@@ -1,8 +1,8 @@
 package org.example;
 
 import org.example.implementations.MyHashMap;
+import org.example.interfaces.Map;
 
-import java.util.Map;
 
 public class MapTest {
 

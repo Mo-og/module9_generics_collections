@@ -73,15 +73,14 @@ public class CollectionTest {
         printPeek(queue.peek());
         printSize(queue);
 
-        System.out.println("Removing (poll):\n ");
+        System.out.println("Removing (poll):");
         for (int i = 1; i < 6; i++) System.out.print(queue.poll() + ", ");
         System.out.println();
         System.out.println(queue);
         printPeek(queue.peek());
 
-        System.out.print("Add:\n ");
         populateList(100, 105, queue);
-        System.out.println("\n" + queue);
+        System.out.println(queue);
         printPeek(queue.peek());
 
         clear(queue);

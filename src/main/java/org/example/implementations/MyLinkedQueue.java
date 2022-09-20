@@ -3,7 +3,7 @@ package org.example.implementations;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class MyLinkedQueue<E> extends MyLinkedList<E> implements Queue<E> {
+public class MyLinkedQueue<E> extends AbstractLinkedCollection<E> implements Queue<E> {
 
     @Override
     public E peek() {
